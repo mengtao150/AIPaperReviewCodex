@@ -1,0 +1,67 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #1f2937;
+  background: #f5f7fb;
+  font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+}
+
+.brand {
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.brand-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.brand-subtitle {
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.main {
+  padding: 24px;
+}
+
+.page-header {
+  margin-bottom: 18px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.page-desc {
+  margin: 8px 0 0;
+  color: #6b7280;
+}
+
+.panel {
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.report {
+  white-space: pre-wrap;
+  line-height: 1.65;
+  font-family: Consolas, "Microsoft YaHei", monospace;
+}
