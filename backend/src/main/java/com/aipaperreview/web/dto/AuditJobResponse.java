@@ -1,6 +1,10 @@
 package com.aipaperreview.web.dto;
 
 import com.aipaperreview.domain.AuditJob;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.Instant;
+import java.util.List;
 
 public record AuditJobResponse(
         Long id,
@@ -10,10 +14,17 @@ public record AuditJobResponse(
         String classificationResult,
         String structureAuditResult,
         String checklistAuditResult,
+        String ragflowEnhancedAuditResult,
         String finalReport,
         String errorMessage,
-        int progressPercent
+        int progressPercent,
+        Instant createdAt,
+        List<ManuscriptParagraphResponse> manuscriptParagraphs
 ) {
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final TypeReference<List<ManuscriptParagraphResponse>> PARAGRAPH_LIST_TYPE = new TypeReference<>() {
+    };
+
     public static AuditJobResponse from(AuditJob job) {
         return new AuditJobResponse(
                 job.getId(),
@@ -23,9 +34,12 @@ public record AuditJobResponse(
                 job.getClassificationResult(),
                 job.getStructureAuditResult(),
                 job.getChecklistAuditResult(),
+                job.getRagflowEnhancedAuditResult(),
                 job.getFinalReport(),
                 job.getErrorMessage(),
-                progressPercent(job.getStatus())
+                progressPercent(job.getStatus()),
+                job.getCreatedAt(),
+                parseParagraphs(job.getManuscriptParagraphsJson())
         );
     }
 
@@ -39,5 +53,16 @@ public record AuditJobResponse(
             case COMPLETED -> 100;
             case FAILED -> 100;
         };
+    }
+
+    private static List<ManuscriptParagraphResponse> parseParagraphs(String value) {
+        if (value == null || value.isBlank()) {
+            return List.of();
+        }
+        try {
+            return OBJECT_MAPPER.readValue(value, PARAGRAPH_LIST_TYPE);
+        } catch (Exception ignored) {
+            return List.of();
+        }
     }
 }

@@ -3,11 +3,13 @@ package com.aipaperreview.web;
 import com.aipaperreview.domain.AuditJob;
 import com.aipaperreview.repository.AuditJobRepository;
 import com.aipaperreview.service.audit.AuditOrchestrator;
+import com.aipaperreview.service.audit.ManuscriptParagraphService;
 import com.aipaperreview.service.audit.WordReportBuilder;
 import com.aipaperreview.web.dto.AuditJobResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -28,15 +30,18 @@ import org.springframework.web.multipart.MultipartFile;
 public class AuditController {
     private final AuditOrchestrator auditOrchestrator;
     private final AuditJobRepository auditJobRepository;
+    private final ManuscriptParagraphService manuscriptParagraphService;
     private final WordReportBuilder wordReportBuilder;
 
     public AuditController(
             AuditOrchestrator auditOrchestrator,
             AuditJobRepository auditJobRepository,
+            ManuscriptParagraphService manuscriptParagraphService,
             WordReportBuilder wordReportBuilder
     ) {
         this.auditOrchestrator = auditOrchestrator;
         this.auditJobRepository = auditJobRepository;
+        this.manuscriptParagraphService = manuscriptParagraphService;
         this.wordReportBuilder = wordReportBuilder;
     }
 
@@ -45,11 +50,19 @@ public class AuditController {
         return AuditJobResponse.from(auditOrchestrator.startAudit(file));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping
     @Transactional(readOnly = true)
+    public List<AuditJobResponse> list() {
+        return auditJobRepository.findAllByOrderByCreatedAtDesc().stream()
+                .map(AuditJobResponse::from)
+                .toList();
+    }
+
+    @GetMapping("/{id}")
+    @Transactional
     public AuditJobResponse get(@PathVariable Long id) {
         AuditJob job = auditJobRepository.findById(id).orElseThrow();
-        return AuditJobResponse.from(job);
+        return AuditJobResponse.from(manuscriptParagraphService.ensureParagraphs(job));
     }
 
     @GetMapping("/{id}/report.docx")

@@ -7,6 +7,7 @@
       </div>
       <el-menu :default-active="active" @select="active = $event">
         <el-menu-item index="audit">稿件审查</el-menu-item>
+        <el-menu-item index="history">审稿历史</el-menu-item>
         <el-menu-item index="templates">文章结构模板库</el-menu-item>
         <el-menu-item index="checklists">审核清单库</el-menu-item>
         <el-menu-item index="llm">大模型配置</el-menu-item>
@@ -15,6 +16,7 @@
 
     <el-main class="main">
       <AuditView v-if="active === 'audit'" />
+      <AuditHistoryView v-if="active === 'history'" />
       <TemplateLibraryView v-if="active === 'templates'" />
       <ChecklistLibraryView v-if="active === 'checklists'" />
       <LlmProviderView v-if="active === 'llm'" />
@@ -25,6 +27,7 @@
 <script setup>
 import { ref } from 'vue'
 import AuditView from './views/AuditView.vue'
+import AuditHistoryView from './views/AuditHistoryView.vue'
 import TemplateLibraryView from './views/TemplateLibraryView.vue'
 import ChecklistLibraryView from './views/ChecklistLibraryView.vue'
 import LlmProviderView from './views/LlmProviderView.vue'

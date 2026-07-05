@@ -19,6 +19,11 @@ export async function getAudit(id) {
   return data
 }
 
+export async function listAudits() {
+  const { data } = await api.get('/audits')
+  return data
+}
+
 export function auditReportDownloadUrl(id) {
   return `${api.defaults.baseURL}/audits/${id}/report.docx`
 }

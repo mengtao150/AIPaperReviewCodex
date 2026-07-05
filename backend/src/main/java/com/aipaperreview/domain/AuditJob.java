@@ -59,6 +59,14 @@ public class AuditJob {
 
     @Lob
     @Column(columnDefinition = "LONGTEXT")
+    private String ragflowEnhancedAuditResult;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String manuscriptParagraphsJson;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String finalReport;
 
     @Lob
@@ -130,6 +138,22 @@ public class AuditJob {
 
     public void setChecklistAuditResult(String checklistAuditResult) {
         this.checklistAuditResult = checklistAuditResult;
+    }
+
+    public String getRagflowEnhancedAuditResult() {
+        return ragflowEnhancedAuditResult;
+    }
+
+    public void setRagflowEnhancedAuditResult(String ragflowEnhancedAuditResult) {
+        this.ragflowEnhancedAuditResult = ragflowEnhancedAuditResult;
+    }
+
+    public String getManuscriptParagraphsJson() {
+        return manuscriptParagraphsJson;
+    }
+
+    public void setManuscriptParagraphsJson(String manuscriptParagraphsJson) {
+        this.manuscriptParagraphsJson = manuscriptParagraphsJson;
     }
 
     public String getFinalReport() {

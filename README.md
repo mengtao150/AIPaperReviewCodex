@@ -77,6 +77,27 @@ set VITE_API_BASE_URL=http://localhost:8080/api
 npm run dev
 ```
 
+## RAGFlow 人工审稿经验增强
+
+默认不开启 RAGFlow。开启后，新审稿任务会在完成结构审查和审核清单审查后，检索历史人工审稿意见，并额外生成“人工经验增强审查”结果。
+
+需要先在 RAGFlow 中建立人工审稿意见知识库，并取得 API Key 和 Dataset ID。然后设置：
+
+```bash
+set RAGFLOW_ENABLED=true
+set RAGFLOW_BASE_URL=http://localhost:9380
+set RAGFLOW_API_KEY=你的RAGFlowApiKey
+set RAGFLOW_DATASET_IDS=dataset-id-1,dataset-id-2
+```
+
+可选参数：
+
+- `RAGFLOW_TOP_K`：默认 `8`
+- `RAGFLOW_PAGE_SIZE`：默认 `8`
+- `RAGFLOW_SIMILARITY_THRESHOLD`：默认 `0.2`
+- `RAGFLOW_VECTOR_SIMILARITY_WEIGHT`：默认 `0.3`
+- `RAGFLOW_TIMEOUT_SECONDS`：默认 `30`
+
 ## 使用流程
 
 1. 确认本机 `MySQL80` 服务已启动。
